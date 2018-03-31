@@ -1,0 +1,16 @@
+#version 330 core
+
+uniform float resolution_x;
+uniform float resolution_y;
+
+void main()
+{
+
+	gl_FragColor = vec4(
+		(1.0 - gl_FragCoord.x/resolution_x) * (1.0 - gl_FragCoord.y/resolution_y),
+		gl_FragCoord.y/resolution_y/1.5,
+		(gl_FragCoord.x/resolution_x) * (1.0 - gl_FragCoord.y/resolution_y),
+		1.0
+	);
+
+}
