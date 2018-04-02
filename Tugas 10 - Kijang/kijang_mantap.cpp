@@ -29,7 +29,7 @@ typedef struct {
 typedef vector<Point> Polygon;
 
 //variabel mobil
-Color warna1 = {0.6f, 0.1f, 0.9f};
+Color warna1 = {1.0f, 0.0f, 0.0f};
 Polygon side1 = {
   {-0.75f, -0.5f, -0.5f},
   {0.75f, -0.5f, -0.5f},
@@ -41,7 +41,7 @@ Polygon side1 = {
   {-0.75f, 0.0f, -0.5f},
 };
 
-Color warna2 = {0.6f, 0.1f, 0.85f};
+Color warna2 = {1.0f, 0.0f, 0.0f};
 Polygon side2 = {
   {-0.75f, -0.5f, 0.5f},
   {0.75f, -0.5f, 0.5f},
@@ -52,41 +52,71 @@ Polygon side2 = {
   {-0.5f, 0.0f, 0.5f},
   {-0.75f, 0.0f, 0.5f},
 };
-Color warna3 = {0.6f, 0.1f, 0.8f};
+
+Color warna3 = {1.0f, 0.0f, 0.0f};
 Polygon side3 = {
   {0.25f, 0.5f, -0.5f},
   {0.5f, 0.0f, -0.5f},
   {0.5f, 0.0f, 0.5f},
   {0.25f, 0.5f, 0.5f}
 };
-Color warna4 = {0.6f, 0.1f, 0.8f};
+
+Color warna4 = {1.0f, 0.0f, 0.0f};
 Polygon side4 = {
-  {-0.75f, 0.0f, -0.5f},
+  {0.75f, -0.5f, 0.5f},
+  {0.75f, 0.0f, 0.5f},
+  {0.75f, 0.0f, -0.5f},
+  {0.75f, -0.5f, -0.5f}
+};
+
+Color warna5 = {1.0f, 0.0f, 0.0f};
+Polygon side5 = {
+  {-0.25f, 0.5f, -0.5f},
   {-0.5f, 0.0f, -0.5f},
   {-0.5f, 0.0f, 0.5f},
-  {-0.75f, 0.5f, 0.5f}
+  {-0.25f, 0.5f, 0.5f}
 };
-Color warna6 = {0.6f, 0.1f, 0.75f};
+
+Color warna6 = {1.0f, 0.0f, 0.0f};
 Polygon side6 = {
-  {-0.5f, -0.5f, 0.5f},
-  {-0.5f, 0.5f, 0.5f},
-  {-0.5f, 0.5f, -0.5f},
-  {-0.5f, -0.5f, -0.5f}
+  {-0.75f, -0.5f, 0.5f},
+  {-0.75f, 0.0f, 0.5f},
+  {-0.75f, 0.0f, -0.5f},
+  {-0.75f, -0.5f, -0.5f}
 };
-Color warna7 = {0.6f, 0.1f, 0.7f};
+
+Color warna7 = {1.0f, 0.0f, 0.0f};
 Polygon side7 = {
-  {0.5f, 0.5f, 0.5f},
-  {0.5f, 0.5f, -0.5f},
-  {-0.5f, 0.5f, -0.5f},
-  {-0.5f, 0.5f, 0.5f}
+  {-0.75f, -0.5f, 0.5f},
+  {-0.75f, -0.5f, -0.5f},
+  {0.75f, -0.5f, -0.5f},
+  {0.75f, -0.5f, 0.5f}
 };
-Color warna8 = {0.6f, 0.1f, 0.65f};
+
+Color warna8 = {1.0f, 0.0f, 0.0f};
 Polygon side8 = {
-  {0.5f, -0.5f, -0.5f},
-  {0.5f, -0.5f, 0.5f},
-  {-0.5f, -0.5f, 0.5f},
-  {-0.5f, -0.5f, -0.5f}
+  {-0.25f, 0.5f, -0.5f},
+  {-0.25f, 0.5f, 0.5f},
+  {0.25f, 0.5f, 0.5f},
+  {0.25f, 0.5f, -0.5f}
 };
+
+Color warna9 = {1.0f, 0.0f, 0.0f};
+Polygon side9 = {
+  {-0.5f, 0.0f, -0.5f},
+  {-0.75f, 0.0f, -0.5f},
+  {-0.75f, 0.0f, 0.5f},
+  {-0.5f, 0.0f, 0.5f},
+};
+
+Color warna10 = {1.0f, 0.0f, 0.0f};
+Polygon side10 = {
+  {0.5f, 0.0f, -0.5f},
+  {0.75f, 0.0f, -0.5f},
+  {0.75f, 0.0f, 0.5f},
+  {0.5f, 0.0f, 0.5f}
+};
+
 // variabel transformasi
 int rotate_x = 0; int rotate_y = 0;
 
@@ -144,6 +174,10 @@ void display() {
   draw_polygon(warna4, side4);
   draw_polygon(warna5, side5);
   draw_polygon(warna6, side6);
+  draw_polygon(warna7, side7);
+  draw_polygon(warna8, side8);
+  draw_polygon(warna9, side9);
+  draw_polygon(warna10, side10);
 
   glFlush();
   glutSwapBuffers();
