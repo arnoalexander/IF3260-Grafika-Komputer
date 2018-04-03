@@ -29,6 +29,14 @@ typedef struct {
 typedef vector<Point> Polygon;
 
 //variabel mobil
+Color warna_ban = {0.15f, 0.2f, 0.2f};
+GLfloat radius_ban = 0.18f;
+Point pusat_ban1 = {-0.45f, -0.5f, 0.51f};
+Point pusat_ban2 = {-0.45f, -0.5f, -0.51f};
+Point pusat_ban3 = {0.45f, -0.5f, 0.51f};
+Point pusat_ban4 = {0.45f, -0.5f, -0.51f};
+
+
 Color warna1 = {1.0f, 0.0f, 0.0f};
 Polygon side1 = {
   {-0.75f, -0.5f, -0.5f},
@@ -118,7 +126,13 @@ Polygon side10 = {
 };
 
 // variabel transformasi
-int rotate_x = 0; int rotate_y = 0;
+float rotate_x = 0.0f;
+float rotate_y = 0.0f;
+float diff_x = 0.0f;
+float diff_y = 0.0f;
+float scale = 1.0f;
+float scale_factor = 1.1f;
+bool mouse_down = false;
 
 void draw_circle(Color color, Point center, GLfloat radius) {
 	GLint segment_number = GLint(round(GLfloat(CIRCLE_DEFAULT_SEGMENTS) * radius));
@@ -126,7 +140,7 @@ void draw_circle(Color color, Point center, GLfloat radius) {
 	glBegin(GL_POLYGON);
 	glColor3f(color.r, color.g, color.b);
 	for (GLint i = 0; i < segment_number; i++) {
-		glVertex2f(center.x + radius * sin(segment_angle * i), center.y + radius * cos(segment_angle * i));
+		glVertex3f(center.x + radius * sin(segment_angle * i), center.y + radius * cos(segment_angle * i), center.z);
 	}
 	glEnd();
 }
@@ -142,6 +156,8 @@ void draw_polygon(Color color, Polygon polygon) {
 
 void display();
 void keyboard_func(unsigned char key, int x, int y);
+void mouse_func(int button, int state, int x, int y);
+void motion_func(int x, int y);
 
 int main(int argc, char* argv[]) {
   /*glut init*/
@@ -152,6 +168,8 @@ int main(int argc, char* argv[]) {
   glEnable(GL_DEPTH_TEST);
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard_func);
+  glutMouseFunc(mouse_func);
+  glutMotionFunc(motion_func);
 
   /*main loop*/
   glutMainLoop();
@@ -167,6 +185,7 @@ void display() {
 
   glRotatef( rotate_x, 1.0, 0.0, 0.0 );
   glRotatef( rotate_y, 0.0, 1.0, 0.0 );
+  glScalef( scale, scale, scale );
 
   draw_polygon(warna1, side1);
   draw_polygon(warna2, side2);
@@ -178,6 +197,11 @@ void display() {
   draw_polygon(warna8, side8);
   draw_polygon(warna9, side9);
   draw_polygon(warna10, side10);
+
+  draw_circle(warna_ban, pusat_ban1, radius_ban);
+  draw_circle(warna_ban, pusat_ban2, radius_ban);
+  draw_circle(warna_ban, pusat_ban3, radius_ban);
+  draw_circle(warna_ban, pusat_ban4, radius_ban);
 
   glFlush();
   glutSwapBuffers();
@@ -194,4 +218,30 @@ void keyboard_func(unsigned char key, int x, int y) {
     rotate_x -= 5;
 
   glutPostRedisplay();
+}
+
+void mouse_func(int button, int state, int x, int y) {
+  if (button == 3) {
+    if (state == GLUT_UP) return;
+    scale *= scale_factor;
+    glutPostRedisplay();
+  } else if (button == 4) {
+    if (state == GLUT_UP) return;
+    scale /= scale_factor;
+    glutPostRedisplay();
+  } else if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+    mouse_down = true;
+    diff_x = x + rotate_y;
+    diff_y = -y - rotate_x;
+  } else {
+    mouse_down = false;
+  }
+}
+
+void motion_func(int x, int y) {
+  if (mouse_down) {
+    rotate_y = -x + diff_x;
+    rotate_x = -y - diff_y;
+    glutPostRedisplay();
+  }
 }
