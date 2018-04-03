@@ -41,7 +41,7 @@ Polygon side1 = {
   {-0.75f, 0.0f, -0.5f},
 };
 
-Color warna2 = {1.0f, 0.0f, 0.0f};
+Color warna2 = {1.0f, 0.0f, 0.05f};
 Polygon side2 = {
   {-0.75f, -0.5f, 0.5f},
   {0.75f, -0.5f, 0.5f},
@@ -53,7 +53,7 @@ Polygon side2 = {
   {-0.75f, 0.0f, 0.5f},
 };
 
-Color warna3 = {1.0f, 0.0f, 0.0f};
+Color warna3 = {1.0f, 0.0f, 0.1f};
 Polygon side3 = {
   {0.25f, 0.5f, -0.5f},
   {0.5f, 0.0f, -0.5f},
@@ -61,7 +61,7 @@ Polygon side3 = {
   {0.25f, 0.5f, 0.5f}
 };
 
-Color warna4 = {1.0f, 0.0f, 0.0f};
+Color warna4 = {0.95f, 0.0f, 0.0f};
 Polygon side4 = {
   {0.75f, -0.5f, 0.5f},
   {0.75f, 0.0f, 0.5f},
@@ -69,7 +69,7 @@ Polygon side4 = {
   {0.75f, -0.5f, -0.5f}
 };
 
-Color warna5 = {1.0f, 0.0f, 0.0f};
+Color warna5 = {0.95f, 0.0f, 0.05f};
 Polygon side5 = {
   {-0.25f, 0.5f, -0.5f},
   {-0.5f, 0.0f, -0.5f},
@@ -77,7 +77,7 @@ Polygon side5 = {
   {-0.25f, 0.5f, 0.5f}
 };
 
-Color warna6 = {1.0f, 0.0f, 0.0f};
+Color warna6 = {0.95f, 0.0f, 0.1f};
 Polygon side6 = {
   {-0.75f, -0.5f, 0.5f},
   {-0.75f, 0.0f, 0.5f},
@@ -85,7 +85,7 @@ Polygon side6 = {
   {-0.75f, -0.5f, -0.5f}
 };
 
-Color warna7 = {1.0f, 0.0f, 0.0f};
+Color warna7 = {0.9f, 0.0f, 0.0f};
 Polygon side7 = {
   {-0.75f, -0.5f, 0.5f},
   {-0.75f, -0.5f, -0.5f},
@@ -93,7 +93,7 @@ Polygon side7 = {
   {0.75f, -0.5f, 0.5f}
 };
 
-Color warna8 = {1.0f, 0.0f, 0.0f};
+Color warna8 = {0.9f, 0.0f, 0.05f};
 Polygon side8 = {
   {-0.25f, 0.5f, -0.5f},
   {-0.25f, 0.5f, 0.5f},
@@ -101,7 +101,7 @@ Polygon side8 = {
   {0.25f, 0.5f, -0.5f}
 };
 
-Color warna9 = {1.0f, 0.0f, 0.0f};
+Color warna9 = {0.9f, 0.0f, 0.1f};
 Polygon side9 = {
   {-0.5f, 0.0f, -0.5f},
   {-0.75f, 0.0f, -0.5f},
@@ -109,7 +109,7 @@ Polygon side9 = {
   {-0.5f, 0.0f, 0.5f},
 };
 
-Color warna10 = {1.0f, 0.0f, 0.0f};
+Color warna10 = {1.0f, 0.0f, 0.15f};
 Polygon side10 = {
   {0.5f, 0.0f, -0.5f},
   {0.75f, 0.0f, -0.5f},
