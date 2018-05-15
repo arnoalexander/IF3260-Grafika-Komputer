@@ -59,6 +59,7 @@ typedef struct {
 
 // Paticle System
 particles par_sys[MAX_PARTICLES];
+particles smoke_sys[MAX_PARTICLES];
 
 void normal_keys(unsigned char key, int x, int y) {
   if (key == 'r') { // Rain
@@ -127,8 +128,25 @@ void initParticles(int i) {
     par_sys[i].blue = 1.0;
 
     par_sys[i].vel = velocity;
-    par_sys[i].gravity = -0.8;//-0.8;
+    par_sys[i].gravity = -0.8;
+}
 
+// Initialize/Reset Smoke - give them their attributes
+void initSmoke(int i) {
+    smoke_sys[i].alive = true;
+    smoke_sys[i].life = 1.0;
+    smoke_sys[i].fade = float(rand()%100)/1000.0f+0.003f;
+
+    smoke_sys[i].xpos = ((float) (rand() % 21) - 10) / 20.0f;
+    smoke_sys[i].ypos = (float) (rand() % 21) / 15.0f - 9.5f;
+    smoke_sys[i].zpos = ((float) (rand() % 21) - 10) / 20.0f;
+
+    smoke_sys[i].red = 0.8;
+    smoke_sys[i].green = 0.8;
+    smoke_sys[i].blue = 0.8;
+
+    smoke_sys[i].vel = velocity;
+    smoke_sys[i].gravity = 1.0;
 }
 
 void init( ) {
@@ -157,7 +175,45 @@ void init( ) {
     // Initialize particles
     for (loop = 0; loop < MAX_PARTICLES; loop++) {
         initParticles(loop);
+        initSmoke(loop);
     }
+}
+
+// For Smoke
+void drawSmoke() {
+  float x, y, z;
+  for (loop = 0; loop < MAX_PARTICLES; loop=loop+2) {
+    if (smoke_sys[loop].alive == true) {
+      x = smoke_sys[loop].xpos;
+      y = smoke_sys[loop].ypos;
+      z = smoke_sys[loop].zpos + zoom;
+
+      // Draw particles
+      glColor4f(0.5, 0.5, 1.0, 0.0);
+      glBegin(GL_QUADS);
+        glVertex3f(x, y, z);
+        glVertex3f(x, y+0.25, z);
+        glVertex3f(x+0.25, y+0.25, z);
+        glVertex3f(x+0.25, y, z);
+      glEnd();
+
+      // Update values
+      //Move
+      // Adjust slowdown for speed!
+      smoke_sys[loop].ypos += smoke_sys[loop].vel / (slowdown*1000);
+      smoke_sys[loop].vel += smoke_sys[loop].gravity;
+      // Decay
+      smoke_sys[loop].life -= smoke_sys[loop].fade;
+
+      if (smoke_sys[loop].ypos <= -10) {
+        smoke_sys[loop].life = -1.0;
+      }
+      //Revive
+      if (smoke_sys[loop].life < 0.0) {
+        initSmoke(loop);
+      }
+    }
+  }
 }
 
 // For Rain
@@ -351,6 +407,8 @@ void drawScene( ) {
   }else if (fall == SNOW) {
     drawSnow();
   }
+  // Draw Smoke
+  drawSmoke();
 
   glutSwapBuffers();
 }
