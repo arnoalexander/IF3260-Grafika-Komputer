@@ -1,5 +1,5 @@
 target:
-	g++ main.cpp -o particle_mantap -lGL -lGLEW -lglfw -lglut -lGLU -ldl -std=c++11
+	g++ make.cpp -o asap_mantap -lGL -lGLEW -lglfw -lglut -lGLU -ldl -std=c++11
 
 run:
-	./particle_mantap
+	./asap_mantap
