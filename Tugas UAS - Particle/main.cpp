@@ -422,9 +422,10 @@ void drawScene( ) {
   // printf("frame = %d\n", frame);
 
   // printf("duration = %f\n", (float)(clock() - start) / CLOCKS_PER_SEC);
-  if ((clock() - start) / (double) CLOCKS_PER_SEC >= 1.0 && notDetermined) {
+  if (10 * (clock() - start) >= CLOCKS_PER_SEC && notDetermined) {
     printf("frame per sec = %d\n", frame);
-    notDetermined = false;
+    start = clock();
+    frame = 0;
   }
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
