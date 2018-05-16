@@ -8,17 +8,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include <GL/glut.h>
 #include <GL/gl.h>
 
-
-#define MAX_PARTICLES 1000
+#define MAX_PARTICLES 3000
 #define WCX		640
 #define WCY		480
 #define RAIN	0
 #define SNOW	1
 #define	HAIL	2
 
+clock_t start;
+bool notDetermined = true;
 
 float slowdown = 2.0;
 float velocity = 0.0;
@@ -30,6 +32,7 @@ float hailsize = 0.1;
 
 int loop;
 int fall;
+int frame = 0;
 
 //floor colors
 float r = 0.0;
@@ -190,41 +193,41 @@ void init( ) {
 void drawCar() {
   glBegin(GL_QUADS);
     // belakang
-    glColor4f(1.0, 0.0, 0.0, 0.0);
+    glColor4f(1.0, 0.0, 0.0, 1.0);
     glVertex3f(0.5, -9, -2);
     glVertex3f(0.5, -9, 2);
     glVertex3f(0.5, -5, 2);
     glVertex3f(0.5, -5, -2);
 
     // depan
-    glColor4f(1.0, 0.0, 0.0, 0.0);
+    glColor4f(1.0, 0.0, 0.0, 1.0);
     glVertex3f(8, -9, -2);
     glVertex3f(8, -9, 2);
     glVertex3f(8, -5, 2);
     glVertex3f(8, -5, -2);
 
     // bawah
-    glColor4f(1.0, 0.0, 0.4, 0.0);
+    glColor4f(1.0, 0.0, 0.4, 1.0);
     glVertex3f(0.5, -9, -2);
     glVertex3f(0.5, -9, 2);
     glVertex3f(8, -9, 2);
     glVertex3f(8, -9, -2);
 
     // atas
-    glColor4f(1.0, 0.0, 0.4, 0.0);
+    glColor4f(1.0, 0.0, 0.4, 1.0);
     glVertex3f(0.5, -5, 2);
     glVertex3f(0.5, -5, -2);
     glVertex3f(8, -5, -2);
     glVertex3f(8, -5, 2);
 
     // samping
-    glColor4f(1.0, 0.0, 0.2, 0.0);
+    glColor4f(1.0, 0.0, 0.2, 1.0);
     glVertex3f(8, -9, 2);
     glVertex3f(0.5, -9, 2);
     glVertex3f(0.5, -5, 2);
     glVertex3f(8, -5, 2);
 
-    glColor4f(1.0, 0.0, 0.2, 0.0);
+    glColor4f(1.0, 0.0, 0.2, 1.0);
     glVertex3f(8, -9, -2);
     glVertex3f(0.5, -9, -2);
     glVertex3f(0.5, -5, -2);
@@ -241,13 +244,17 @@ void drawSmoke() {
       y = smoke_sys[loop].ypos;
       z = smoke_sys[loop].zpos;
 
+      // printf("%d\n", loop);
+
       // Draw particles
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      glColor4f(.5, .5, .5, .2);
       glBegin(GL_QUADS);
-        glColor4f(0.5, 0.5, 1.0, 0.0);
         glVertex3f(x, y, z);
-        glVertex3f(x, y+0.25, z);
-        glVertex3f(x+0.25, y+0.25, z);
-        glVertex3f(x+0.25, y, z);
+        glVertex3f(x, y+0.2, z);
+        glVertex3f(x+0.2, y+0.2, z);
+        glVertex3f(x+0.2, y, z);
       glEnd();
 
       // Update values
@@ -256,7 +263,7 @@ void drawSmoke() {
       smoke_sys[loop].ypos += smoke_sys[loop].vel / (slowdown*1000);
       smoke_sys[loop].vel += smoke_sys[loop].gravity;
       // Decay
-      smoke_sys[loop].life -= smoke_sys[loop].fade;
+      smoke_sys[loop].life -= smoke_sys[loop].fade*2;
 
       if (smoke_sys[loop].ypos <= -10) {
         smoke_sys[loop].life = -1.0;
@@ -416,6 +423,15 @@ void drawScene( ) {
   int i, j;
   float x, y, z;
 
+  frame++;
+  // printf("frame = %d\n", frame);
+
+  // printf("duration = %f\n", (float)(clock() - start) / CLOCKS_PER_SEC);
+  if ((clock() - start) / (double) CLOCKS_PER_SEC >= 1.0 && notDetermined) {
+    printf("frame per sec = %d\n", frame);
+    notDetermined = false;
+  }
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_MODELVIEW);
 
@@ -492,6 +508,7 @@ int main (int argc, char** argv) {
   glutInitWindowSize(WCX, WCY);
   glutCreateWindow("Partikel Mantap");
   init();
+  start = clock();
   glutDisplayFunc(drawScene);
   glutReshapeFunc(reshape);
   glutKeyboardFunc(normal_keys);
