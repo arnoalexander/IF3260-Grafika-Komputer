@@ -1,9 +1,4 @@
-//	May Ang
-//	mang@ucsc.edu
-//	CS 161 - Animation & Visualization
-//	Final Project - Rain/Hail/Snow Simulation
 
-//source: https://classes.soe.ucsc.edu/cmps161/Winter09/projects/mang/finalproject.html
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -506,7 +501,7 @@ int main (int argc, char** argv) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_RGB | GLUT_DOUBLE);
   glutInitWindowSize(WCX, WCY);
-  glutCreateWindow("Partikel Mantap");
+  glutCreateWindow("Partikel Mantap - Anjas and Friends");
   init();
   start = clock();
   glutDisplayFunc(drawScene);
