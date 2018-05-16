@@ -142,15 +142,15 @@ void initParticles(int i) {
 void initSmoke(int i) {
     smoke_sys[i].alive = true;
     smoke_sys[i].life = 1.0;
-    smoke_sys[i].fade = float(rand()%100)/1000.0f+0.003f;
+    smoke_sys[i].fade = float(rand()%100)/100.0f+0.003f;
 
     smoke_sys[i].xpos = ((float) (rand() % 21) - 10) / 20.0f;
     smoke_sys[i].ypos = (float) (rand() % 21) / 15.0f - 9.5f;
     smoke_sys[i].zpos = ((float) (rand() % 21) - 10) / 20.0f;
 
     smoke_sys[i].red = 0.8;
-    smoke_sys[i].green = 0.8;
-    smoke_sys[i].blue = 0.8;
+    smoke_sys[i].green = 0.6;
+    smoke_sys[i].blue = 0.5;
 
     smoke_sys[i].vel = velocity;
     smoke_sys[i].gravity = 1.0;
@@ -188,16 +188,47 @@ void init( ) {
 
 // For Car
 void drawCar() {
-  float x, y, z;
-  x = 0.0;
-  y = 1.0;
-  z = /*zoom*/0.0;
   glBegin(GL_QUADS);
-    glColor4f(1.0, 0.0, 1.0, 0.0);
-    glVertex3f(x, y, z);
-    glVertex3f(x, y, z+10);
-    glVertex3f(x+10, y, z+10);
-    glVertex3f(x+10, y, z);
+    // belakang
+    glColor4f(1.0, 0.0, 0.0, 0.0);
+    glVertex3f(0.5, -9, -2);
+    glVertex3f(0.5, -9, 2);
+    glVertex3f(0.5, -5, 2);
+    glVertex3f(0.5, -5, -2);
+
+    // depan
+    glColor4f(1.0, 0.0, 0.0, 0.0);
+    glVertex3f(8, -9, -2);
+    glVertex3f(8, -9, 2);
+    glVertex3f(8, -5, 2);
+    glVertex3f(8, -5, -2);
+
+    // bawah
+    glColor4f(1.0, 0.0, 0.4, 0.0);
+    glVertex3f(0.5, -9, -2);
+    glVertex3f(0.5, -9, 2);
+    glVertex3f(8, -9, 2);
+    glVertex3f(8, -9, -2);
+
+    // atas
+    glColor4f(1.0, 0.0, 0.4, 0.0);
+    glVertex3f(0.5, -5, 2);
+    glVertex3f(0.5, -5, -2);
+    glVertex3f(8, -5, -2);
+    glVertex3f(8, -5, 2);
+
+    // samping
+    glColor4f(1.0, 0.0, 0.2, 0.0);
+    glVertex3f(8, -9, 2);
+    glVertex3f(0.5, -9, 2);
+    glVertex3f(0.5, -5, 2);
+    glVertex3f(8, -5, 2);
+
+    glColor4f(1.0, 0.0, 0.2, 0.0);
+    glVertex3f(8, -9, -2);
+    glVertex3f(0.5, -9, -2);
+    glVertex3f(0.5, -5, -2);
+    glVertex3f(8, -5, -2);
   glEnd();
 }
 
@@ -208,7 +239,7 @@ void drawSmoke() {
     if (smoke_sys[loop].alive == true) {
       x = smoke_sys[loop].xpos;
       y = smoke_sys[loop].ypos;
-      z = smoke_sys[loop].zpos + /*zoom*/0;
+      z = smoke_sys[loop].zpos;
 
       // Draw particles
       glBegin(GL_QUADS);
@@ -245,7 +276,7 @@ void drawRain() {
     if (par_sys[loop].alive == true) {
       x = par_sys[loop].xpos;
       y = par_sys[loop].ypos;
-      z = par_sys[loop].zpos + /*zoom*/0;
+      z = par_sys[loop].zpos;
 
       // Draw particles
       glColor3f(0.5, 0.5, 1.0);
@@ -281,7 +312,7 @@ void drawHail() {
     if (par_sys[loop].alive == true) {
       x = par_sys[loop].xpos;
       y = par_sys[loop].ypos;
-      z = par_sys[loop].zpos ;//+ zoom;
+      z = par_sys[loop].zpos;
 
       // Draw particles
       glColor3f(0.8, 0.8, 0.9);
@@ -344,7 +375,7 @@ void drawSnow() {
     if (par_sys[loop].alive == true) {
       x = par_sys[loop].xpos;
       y = par_sys[loop].ypos;
-      z = par_sys[loop].zpos ;//+ zoom;
+      z = par_sys[loop].zpos;
 
       // Draw particles
       glColor3f(1.0, 1.0, 1.0);
@@ -361,7 +392,7 @@ void drawSnow() {
       par_sys[loop].life -= par_sys[loop].fade;
 
       if (par_sys[loop].ypos <= -10) {
-        int zi = z /*- zoom*/ + 10;
+        int zi = z + 10;
         int xi = x + 10;
         ground_colors[zi][xi][0] = 1.0;
         ground_colors[zi][xi][2] = 1.0;
@@ -405,19 +436,19 @@ void drawScene( ) {
         glColor3fv(ground_colors[i+10][j+10]);
         glVertex3f(ground_points[j+10][i+10][0],
               ground_points[j+10][i+10][1],
-              ground_points[j+10][i+10][2] + /*zoom*/0);
+              ground_points[j+10][i+10][2]);
         glColor3fv(ground_colors[i+10][j+1+10]);
         glVertex3f(ground_points[j+1+10][i+10][0],
               ground_points[j+1+10][i+10][1],
-              ground_points[j+1+10][i+10][2] + /*zoom*/0);
+              ground_points[j+1+10][i+10][2]);
         glColor3fv(ground_colors[i+1+10][j+1+10]);
         glVertex3f(ground_points[j+1+10][i+1+10][0],
               ground_points[j+1+10][i+1+10][1],
-              ground_points[j+1+10][i+1+10][2] + /*zoom*/0);
+              ground_points[j+1+10][i+1+10][2]);
         glColor3fv(ground_colors[i+1+10][j+10]);
         glVertex3f(ground_points[j+10][i+1+10][0],
               ground_points[j+10][i+1+10][1],
-              ground_points[j+10][i+1+10][2] + /*zoom*/0);
+              ground_points[j+10][i+1+10][2]);
       }
 
     }
