@@ -25,6 +25,7 @@ float velocity = 0.0;
 float zoom = -40.0;
 float pan = 0.0;
 float tilt = 0.0;
+float flank = 0.0;
 float hailsize = 0.1;
 
 int loop;
@@ -99,16 +100,22 @@ void special_keys(int key, int x, int y) {
     zoom -= 1.0;
   }
   if (key == GLUT_KEY_RIGHT) {
-    pan += 1.0;
+    flank -= 1.0;
   }
   if (key == GLUT_KEY_LEFT) {
-    pan -= 1.0;
+    flank += 1.0;
   }
   if (key == GLUT_KEY_PAGE_UP) {
     tilt -= 1.0;
   }
   if (key == GLUT_KEY_PAGE_DOWN) {
     tilt += 1.0;
+  }
+  if (key == GLUT_KEY_END) {
+    pan += 1.0;
+  }
+  if (key == GLUT_KEY_HOME) {
+    pan -= 1.0;
   }
 }
 
@@ -179,6 +186,21 @@ void init( ) {
     }
 }
 
+// For Car
+void drawCar() {
+  float x, y, z;
+  x = 0.0;
+  y = 1.0;
+  z = /*zoom*/0.0;
+  glBegin(GL_QUADS);
+    glColor4f(1.0, 0.0, 1.0, 0.0);
+    glVertex3f(x, y, z);
+    glVertex3f(x, y, z+10);
+    glVertex3f(x+10, y, z+10);
+    glVertex3f(x+10, y, z);
+  glEnd();
+}
+
 // For Smoke
 void drawSmoke() {
   float x, y, z;
@@ -186,11 +208,11 @@ void drawSmoke() {
     if (smoke_sys[loop].alive == true) {
       x = smoke_sys[loop].xpos;
       y = smoke_sys[loop].ypos;
-      z = smoke_sys[loop].zpos + zoom;
+      z = smoke_sys[loop].zpos + /*zoom*/0;
 
       // Draw particles
-      glColor4f(0.5, 0.5, 1.0, 0.0);
       glBegin(GL_QUADS);
+        glColor4f(0.5, 0.5, 1.0, 0.0);
         glVertex3f(x, y, z);
         glVertex3f(x, y+0.25, z);
         glVertex3f(x+0.25, y+0.25, z);
@@ -223,7 +245,7 @@ void drawRain() {
     if (par_sys[loop].alive == true) {
       x = par_sys[loop].xpos;
       y = par_sys[loop].ypos;
-      z = par_sys[loop].zpos + zoom;
+      z = par_sys[loop].zpos + /*zoom*/0;
 
       // Draw particles
       glColor3f(0.5, 0.5, 1.0);
@@ -259,7 +281,7 @@ void drawHail() {
     if (par_sys[loop].alive == true) {
       x = par_sys[loop].xpos;
       y = par_sys[loop].ypos;
-      z = par_sys[loop].zpos + zoom;
+      z = par_sys[loop].zpos ;//+ zoom;
 
       // Draw particles
       glColor3f(0.8, 0.8, 0.9);
@@ -322,7 +344,7 @@ void drawSnow() {
     if (par_sys[loop].alive == true) {
       x = par_sys[loop].xpos;
       y = par_sys[loop].ypos;
-      z = par_sys[loop].zpos + zoom;
+      z = par_sys[loop].zpos ;//+ zoom;
 
       // Draw particles
       glColor3f(1.0, 1.0, 1.0);
@@ -339,7 +361,7 @@ void drawSnow() {
       par_sys[loop].life -= par_sys[loop].fade;
 
       if (par_sys[loop].ypos <= -10) {
-        int zi = z - zoom + 10;
+        int zi = z /*- zoom*/ + 10;
         int xi = x + 10;
         ground_colors[zi][xi][0] = 1.0;
         ground_colors[zi][xi][2] = 1.0;
@@ -371,6 +393,7 @@ void drawScene( ) {
 
   glRotatef(pan, 0.0, 1.0, 0.0);
   glRotatef(tilt, 1.0, 0.0, 0.0);
+  glTranslatef(flank, 0.0, zoom);
 
   // GROUND?!
   glColor3f(r, g, b);
@@ -382,19 +405,19 @@ void drawScene( ) {
         glColor3fv(ground_colors[i+10][j+10]);
         glVertex3f(ground_points[j+10][i+10][0],
               ground_points[j+10][i+10][1],
-              ground_points[j+10][i+10][2] + zoom);
+              ground_points[j+10][i+10][2] + /*zoom*/0);
         glColor3fv(ground_colors[i+10][j+1+10]);
         glVertex3f(ground_points[j+1+10][i+10][0],
               ground_points[j+1+10][i+10][1],
-              ground_points[j+1+10][i+10][2] + zoom);
+              ground_points[j+1+10][i+10][2] + /*zoom*/0);
         glColor3fv(ground_colors[i+1+10][j+1+10]);
         glVertex3f(ground_points[j+1+10][i+1+10][0],
               ground_points[j+1+10][i+1+10][1],
-              ground_points[j+1+10][i+1+10][2] + zoom);
+              ground_points[j+1+10][i+1+10][2] + /*zoom*/0);
         glColor3fv(ground_colors[i+1+10][j+10]);
         glVertex3f(ground_points[j+10][i+1+10][0],
               ground_points[j+10][i+1+10][1],
-              ground_points[j+10][i+1+10][2] + zoom);
+              ground_points[j+10][i+1+10][2] + /*zoom*/0);
       }
 
     }
@@ -409,6 +432,8 @@ void drawScene( ) {
   }
   // Draw Smoke
   drawSmoke();
+  // Draw Car
+  drawCar();
 
   glutSwapBuffers();
 }
